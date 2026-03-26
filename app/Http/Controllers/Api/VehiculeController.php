@@ -43,7 +43,7 @@ class VehiculeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**
@@ -51,6 +51,20 @@ class VehiculeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Vehicle::destroy($id); 
+
+    return response()->json(['message' => 'Vehicle deleted!']);
+    }
+
+    public function toggleStatus($id){
+        $vehicle = Vehicle::findOrFail($id);
+    
+        $vehicle->status = ($vehicle->status === 'active') ? 'maintenance' : 'active';
+        $vehicle->save();
+
+    return response()->json([
+        'message' => 'Status updated successfully',
+        'new_status' => $vehicle->status
+    ]);
     }
 }
