@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("full_name");
             $table->string("license_number")->unique();
             $table->string("phone");
+            $table->enum("status",["available","on_trip","on-duty"])->default("available");
             $table->timestamps();
         });
     }

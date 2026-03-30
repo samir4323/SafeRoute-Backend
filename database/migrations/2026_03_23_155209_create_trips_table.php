@@ -17,8 +17,11 @@ return new class extends Migration
             $table->foreignId("vehicle_id")->constrained()->onDelete("cascade");
             $table->string("start_point");
             $table->string("end_point");
-            $table->decimal("distance",8,2);
-            $table->decimal("fuel_consumed",8,2);
+            $table->dateTime("start_time");
+            $table->dateTime("end_time")->nullable();
+            $table->decimal("distance",8,2)->nullable();
+            $table->decimal("fuel_consumed",8,2)->nullable();
+            $table->enum("status",["pending","in_progress","completed"])->default("pending");
             $table->timestamps();
         });
     }
