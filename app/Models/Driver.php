@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Driver extends Model
 {
-    protected $fillable = ["full_name","licence_number","phone"];
+    protected $fillable = ["full_name","licence_number","phone","status"];
 
     public function trips(){
         return $this->hasMany(Trip::class);

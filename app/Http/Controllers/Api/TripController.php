@@ -54,6 +54,30 @@ class TripController extends Controller
     });
 }
 
+public function complete(Request $request, $id) 
+{
+    $trip = Trip::findOrFail($id);
+
+    $validated = $request->validate([
+        'distance' => 'required|numeric',
+        'fuel_consumed' => 'required|numeric',
+    ]);
+
+    return DB::transaction(function () use ($trip, $validated) {
+        $trip->update([
+            'distance' => $validated['distance'],
+            'fuel_consumed' => $validated['fuel_consumed'],
+            'end_time' => now(),
+            'status' => 'completed'
+        ]);
+
+        $trip->vehicle->update(['status' => 'active']);
+        $trip->driver->update(['status' => 'available']);
+
+        return response()->json(['message' => 'Trip closed successfully!']);
+    });
+}
+
     /**
      * Display the specified resource.
      */
